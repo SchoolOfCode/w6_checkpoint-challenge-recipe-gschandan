@@ -1,3 +1,25 @@
+@media (min-width: 600px) {
+    body{
+        background-image: url('images/food_bg_sharp.png');
+    }
+}
+@media (max-width: 600px) {
+    body {
+        background-image: url('images/food_bg_mob_sharp.jpg');
+    }
+}
+body{
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+#headline{
+    padding: 0.5em;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 .recipe-count{
 
 }
@@ -6,11 +28,10 @@
 
 }
 
+.recipe-image{
+    max-width: 100%;
+}
+
 .recipe-item{
 
 }
-
-.recipe-image{
-    
-}
-

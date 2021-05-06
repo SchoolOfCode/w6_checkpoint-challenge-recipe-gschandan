@@ -78,7 +78,7 @@ function formatRecipeResults(recipe){
   let totTime = recipe.totalTime;
   let prepTime = (totTime > 0)? (totTime <= 60)? `Time: ${totTime}mins`:`Time: ${Math.round(totTime/60)}hrs`: "";
   const recipeCard = `
-  <a href=${recipe.url}><img class="recipe-image" src="${recipe.image}" alt="${recipe.label}"></a>
+  <a href=${recipe.url}><img class="recipe-image" src="${recipe.image}" alt="${recipe.label}""></a>
   <p>${recipe.label}.
   Serves: ${recipe.yield}. ${prepTime}
   </p>  

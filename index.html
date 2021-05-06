@@ -2,24 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="./main.js" defer></script>
     <title>Fetch</title>
   </head>
   <body>
-    <section id="recipe-section">
-      <h2 class="section-heading">Welcome to the Recipe Finder!</h2>
-      <input
-        aria-label="food-input"
-        type="text"
-        id="food-input"
-        value="Jam sandwich"
-      />
-      <button id="recipe-button">
-        Give me a recipe!
-      </button>
-    </section>
-    <section id="recipe-results">
-    </section>
-    <script src="./main.js"></script>
+    <div class = "main-content">
+      <header>
+        <h1 id="headline">Recipe Search</h1>
+      </header>
+      <main>
+        <section id="recipe-section">
+          <input
+            aria-label="food-input"
+            type="text"
+            id="food-input"
+            value="Jam sandwich"
+          />
+          <button id="recipe-button">
+            Give me a recipe!
+          </button>
+        </section>
+        <section id="recipe-results">
+        </section>
+      </main>
+      </div>
   </body>
 </html>
