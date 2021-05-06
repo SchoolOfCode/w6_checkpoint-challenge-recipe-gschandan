@@ -24,7 +24,7 @@ async function fetchRecipe(food) {
   #################################################################*/
   try{
     const requestUrl = `https://api.edamam.com/search?q=${food}&app_id=${RECIPE_APP_ID}&app_key=${RECIPE_APP_KEY}`
-    const recipeSearchResponse = await fetch(requestUrl);
+    const recipeSearchResponse = await fetch(requestUrl, {cache: "force-cache"}); //change this to default after testing completed
     const recipeList = await recipeSearchResponse.json();
     console.log(recipeList);//----------------Remove this later: for debugging only---------------------
     displayRecipeCount(recipeList.count);
@@ -72,6 +72,17 @@ function displayRecipeSearchResults(recipeList){
 }
 
 function formatRecipeResults(recipe){
-  return recipe.label;
+  /*#################################################################
+  wrap img in an anchor tag, insert text +/- calories, prep time, labels
+  #################################################################*/
+  let totTime = recipe.totalTime;
+  let prepTime = (totTime > 0)? (totTime <= 60)? `Time: ${totTime}mins`:`Time: ${Math.round(totTime/60)}hrs`: "";
+  const recipeCard = `
+  <a href=${recipe.url}><img class="recipe-image" src="${recipe.image}" alt="${recipe.label}"></a>
+  <p>${recipe.label}.
+  Serves: ${recipe.yield}. ${prepTime}
+  </p>  
+  `
+  return recipeCard;
 
 }
