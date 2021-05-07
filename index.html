@@ -8,25 +8,25 @@
     <title>Fetch</title>
   </head>
   <body>
-    <div class = "main-content">
       <header>
-        <h1 id="headline">Recipe Search</h1>
+        <h1 aria-label="A recipe discovery web-application"></h1>
       </header>
       <main>
-        <section id="recipe-section">
-          <input
-            aria-label="food-input"
-            type="text"
-            id="food-input"
-            value="Jam sandwich"
-          />
-          <button id="recipe-button">
-            Give me a recipe!
-          </button>
-        </section>
-        <section id="recipe-results">
-        </section>
-      </main>
+      <div class = "container recipe-search-form">
+            <h2 id="search-form-header">Recipe Finder</h2>
+          <div class = "subcontainer">
+            <input aria-label="food-input" type="text"
+              id="food-input" value="Jam sandwich"/>
+          </div>
+          <div class = "subcontainer">
+            <button id="recipe-button">Search</button>
+            <button id="random-button">Surprise Me!</button>
+          </div>
       </div>
+      <div class = "container">
+        <div id = "recipe-results"></div>
+      </div>
+      </main>
+
   </body>
 </html>
