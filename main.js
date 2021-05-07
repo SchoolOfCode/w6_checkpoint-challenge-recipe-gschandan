@@ -3,7 +3,8 @@ const RECIPE_APP_KEY = "c9a3f34b5eec7c0fbeae3ab5f919746e"
 
 const foodItemSearchBtn = document.querySelector("#recipe-button");
 const itemInputElem = document.querySelector("#food-input");
-const recipeResultsElem = document.querySelector("#recipe-results");
+const recipeResultsElem = document.querySelector(".recipe-results");
+const recipeResultsNumElem = document.querySelector("#recipe-result-numbers")
 
 foodItemSearchBtn.addEventListener("click", handleRecipeClick);
 
@@ -50,7 +51,7 @@ function displayRecipeCount(count){
   } else{
     h3Elem.innerText = `Your search returned ${count} result${(count==1)?".":"s."}`;
   }
-  recipeResultsElem.appendChild(h3Elem);
+  recipeResultsNumElem.appendChild(h3Elem);
 }
 
 function displayRecipeSearchResults(recipeList){
