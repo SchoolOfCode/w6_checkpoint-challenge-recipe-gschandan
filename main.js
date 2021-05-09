@@ -16,7 +16,7 @@ window.onscroll = function(event){
   };
 };
 let numRecipesToDisplay = 11;
-let moreRecipes=false;
+let moreRecipes;
 
 function handleRecipeClick() {
   /*#################################################################
@@ -46,7 +46,8 @@ async function fetchRecipe(food, from=0) {
     const recipeList = await recipeSearchResponse.json();
     console.log(recipeList);//----------------Remove this later: for debugging only---------------------
     moreRecipes = recipeList.more;
-    displayRecipeCount(recipeList.count);
+    //displayRecipeCount(recipeList.count); //?bug - returns one less than is available sometimes
+    displayRecipeCount(recipeList.hits.length);
     displayRecipeSearchResults(recipeList.hits, moreRecipes);
   } catch (error){
     console.error(`${error}`)
@@ -86,9 +87,8 @@ function displayRecipeSearchResults(recipeList, moreRecipes){
     liElem.innerHTML= formatRecipeResults(recipe.recipe);
     olElem.appendChild(liElem);
   });
-  if (olElem.getBoundingClientRect().bottom <= window.innerHeight && moreRecipes){
-    getMoreRecipes();
-    console.log("TRUE!",olElem.getBoundingClientRect().bottom)
+  if ((olElem.getBoundingClientRect().bottom <= window.innerHeight) && moreRecipes){
+    getMoreRecipes(moreRecipes);
   }
  
 };
