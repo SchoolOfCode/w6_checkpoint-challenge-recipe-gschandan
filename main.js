@@ -6,10 +6,17 @@ const foodItemSearchBtn = document.querySelector("#recipe-button");
 const itemInputElem = document.querySelector("#food-input");
 const recipeResultsElem = document.querySelector(".recipe-results");
 const recipeResultsNumElem = document.querySelector("#recipe-result-numbers")
+const htmlElem = document.querySelector("html");
 
 foodItemSearchBtn.addEventListener("click", handleRecipeClick);
-window.onscroll = event => getMoreRecipes(event);
+window.onscroll = function(event){
+  //If we have scrolled to the last visible result, fetch some more
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    getMoreRecipes(moreRecipes);
+  };
+};
 let numRecipesToDisplay = 11;
+let moreRecipes=false;
 
 function handleRecipeClick() {
   /*#################################################################
@@ -38,8 +45,9 @@ async function fetchRecipe(food, from=0) {
     const recipeSearchResponse = await fetch(requestUrl, {cache: "force-cache"}); //change this to default after testing completed
     const recipeList = await recipeSearchResponse.json();
     console.log(recipeList);//----------------Remove this later: for debugging only---------------------
+    moreRecipes = recipeList.more;
     displayRecipeCount(recipeList.count);
-    displayRecipeSearchResults(recipeList.hits);
+    displayRecipeSearchResults(recipeList.hits, moreRecipes);
   } catch (error){
     console.error(`${error}`)
   }
@@ -54,14 +62,14 @@ function displayRecipeCount(count){
   const h3Elem =  document.createElement("h3");
   h3Elem.id="recipe-count";
   if (count === 0){
-    h3Elem.innerText = "Unfortuantely your search didn't return any results";
+    h3Elem.innerHTML = `Unfortuantely your search returned <var id="count">${count}</var> results.`;
   } else{
-    h3Elem.innerText = `Your search returned ${count} result${(count==1)?".":"s."}`;
+    h3Elem.innerHTML = `Your search returned <var id="count">${count}</var> result${(count==1)?".":"s."}`;
   }
   recipeResultsNumElem.appendChild(h3Elem);
 }
 
-function displayRecipeSearchResults(recipeList){
+function displayRecipeSearchResults(recipeList, moreRecipes){
   /*#################################################################
   Display 10 search results in an ordered list elem, looping through the
   hits from the query. Display the image, title and some of the health labels
@@ -78,6 +86,10 @@ function displayRecipeSearchResults(recipeList){
     liElem.innerHTML= formatRecipeResults(recipe.recipe);
     olElem.appendChild(liElem);
   });
+  if (olElem.getBoundingClientRect().bottom <= window.innerHeight && moreRecipes){
+    getMoreRecipes();
+    console.log("TRUE!",olElem.getBoundingClientRect().bottom)
+  }
  
 };
 
@@ -93,8 +105,8 @@ function formatRecipeResults(recipe){
   return recipeCard;
 }
 
-function getMoreRecipes(event){
-  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+function getMoreRecipes(moreRecipes){
+  if (moreRecipes){
     fetchRecipe(itemInputElem.value, from=numRecipesToDisplay);
     console.log(`numRecipesToDisplay: ${numRecipesToDisplay}`);
     numRecipesToDisplay += 11;
