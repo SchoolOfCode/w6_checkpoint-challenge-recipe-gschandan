@@ -8,22 +8,19 @@ main{
 }
 
 /*###############################################*/
+.recipe-search-form{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    background-color: rgba(0, 0, 0, 0.6);
+    gap: 0.5em;
+    padding: 5vh 2vw;
+}
 
 #search-form-header{
     color: white;
     font-weight: 100;
     text-align: center;
     font-size: 2rem;
-    padding-bottom: 0.5em;
-}
-.recipe-search-form{
-    background-color: rgba(0, 0, 0, 0.6);
-    gap: 0.5em;
-    padding: 5vh 2vw;
-}
-
-.input-wrapper{
-    text-align: center;
 }
 
 #food-input{
@@ -38,7 +35,6 @@ main{
 #recipe-button{
     font-size: 1.5rem;
     border-radius: 0.3rem;
-    padding: 0 10px;
 }
 
 /*###############################################*/
@@ -55,12 +51,18 @@ main > h3{
     text-align: center;
 }
 
-
 li{
     border: rgba(0, 0, 0, 0.0) 1px solid;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    gap: 1em;
 }
 li:hover{
     border: rgba(0, 0, 0, 0.1) 1px solid;
+}
+img{
+    max-width: 200px;
 }
 
 .recipe-list{

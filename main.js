@@ -1,5 +1,6 @@
 const RECIPE_APP_ID = "ac929366"
 const RECIPE_APP_KEY = "c9a3f34b5eec7c0fbeae3ab5f919746e"
+const authKey = `&app_id=${RECIPE_APP_ID}&app_key=${RECIPE_APP_KEY}`
 
 const foodItemSearchBtn = document.querySelector("#recipe-button");
 const itemInputElem = document.querySelector("#food-input");
@@ -7,9 +8,17 @@ const recipeResultsElem = document.querySelector(".recipe-results");
 const recipeResultsNumElem = document.querySelector("#recipe-result-numbers")
 
 foodItemSearchBtn.addEventListener("click", handleRecipeClick);
+window.onscroll = event => getMoreRecipes(event);
+let numRecipesToDisplay = 11;
 
 function handleRecipeClick() {
-  let foodToSearch = itemInputElem.value;
+  /*#################################################################
+  Clear any previous search results, and fetch the new results
+  #################################################################*/
+  while(recipeResultsElem.firstChild){
+    recipeResultsElem.removeChild(recipeResultsElem.lastChild);
+  }
+  const foodToSearch = itemInputElem.value;
   if (foodToSearch){
     console.log("Searching...");
     fetchRecipe(foodToSearch);
@@ -18,13 +27,14 @@ function handleRecipeClick() {
   }
 }
 
-async function fetchRecipe(food) {
+async function fetchRecipe(food, from=0) {
   /*#################################################################
   Fetch the recipe by searching with the search query provided
   Call the functions displayRecipeCount, then displayRecipeSearchResults
   #################################################################*/
   try{
-    const requestUrl = `https://api.edamam.com/search?q=${food}&app_id=${RECIPE_APP_ID}&app_key=${RECIPE_APP_KEY}`
+    const fromQuery = `&from=${from}`;
+    const requestUrl = `https://api.edamam.com/search?q=${food+authKey+fromQuery}`
     const recipeSearchResponse = await fetch(requestUrl, {cache: "force-cache"}); //change this to default after testing completed
     const recipeList = await recipeSearchResponse.json();
     console.log(recipeList);//----------------Remove this later: for debugging only---------------------
@@ -40,10 +50,7 @@ function displayRecipeCount(count){
   Clear the search results by removing all children elements of the recipe 
   results section. Display the number of results found, if any, in a h3 elem
   #################################################################*/
-  while(recipeResultsElem.firstChild){
-    recipeResultsElem.removeChild(recipeResultsElem.lastChild);
-  }
-  
+  recipeResultsNumElem.removeChild(recipeResultsNumElem.firstChild);
   const h3Elem =  document.createElement("h3");
   h3Elem.id="recipe-count";
   if (count === 0){
@@ -59,18 +66,20 @@ function displayRecipeSearchResults(recipeList){
   Display 10 search results in an ordered list elem, looping through the
   hits from the query. Display the image, title and some of the health labels
   #################################################################*/
-  const olElem = document.createElement("ol");
-  olElem.classList.add("recipe-list");
-  recipeResultsElem.appendChild(olElem);
-
+  let olElem = document.querySelector("ol");
+  if  (!olElem){
+    olElem = document.createElement("ol");
+    olElem.classList.add("recipe-list");
+    recipeResultsElem.appendChild(olElem);
+  };
   recipeList.forEach(recipe => {
     const liElem = document.createElement("li");
     liElem.classList.add("recipe-item")
     liElem.innerHTML= formatRecipeResults(recipe.recipe);
     olElem.appendChild(liElem);
   });
-
-}
+ 
+};
 
 function formatRecipeResults(recipe){
   /*#################################################################
@@ -80,10 +89,14 @@ function formatRecipeResults(recipe){
   let prepTime = (totTime > 0)? (totTime <= 60)? `Time: ${totTime}mins`:`Time: ${Math.round(totTime/60)}hrs`: "";
   const recipeCard = `
   <a href=${recipe.url}><img class="recipe-image" src="${recipe.image}" alt="${recipe.label}""></a>
-  <p>${recipe.label}.
-  Serves: ${recipe.yield}. ${prepTime}
-  </p>  
-  `
+  <p>${recipe.label}.<br>Serves: ${recipe.yield}.<br>${prepTime}</p>`
   return recipeCard;
+}
 
+function getMoreRecipes(event){
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    fetchRecipe(itemInputElem.value, from=numRecipesToDisplay);
+    console.log(`numRecipesToDisplay: ${numRecipesToDisplay}`);
+    numRecipesToDisplay += 11;
+  }
 }
