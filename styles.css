@@ -2,6 +2,9 @@
     padding:0;
     margin:0;
 }
+html{
+    background-color:rgb(236, 240, 241);
+}
 
 main{
     font-family: sans-serif;
@@ -11,23 +14,24 @@ main{
 .recipe-search-form{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgb(37, 64, 89);
     gap: 0.5em;
     padding: 5vh 2vw;
 }
 
 #search-form-header{
-    color: white;
+    color: #F2F2F2;
     font-weight: 100;
     text-align: center;
-    font-size: 2rem;
+    font-size: 3rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 #food-input{
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 0.3rem;
     border-color:rgba(44, 30, 28, 0.3);
-    color: white;
+    color: #F2F2F2;
     text-align: center;
     font-size: 1.5rem;
 }
@@ -35,11 +39,13 @@ main{
 #recipe-button{
     font-size: 1.5rem;
     border-radius: 0.3rem;
+    background-color: #F2F2F2;
 }
 
 /*###############################################*/
 #recipe-result-numbers{
     padding: 1em;
+    text-align: center;
 }
 ol{
     display: grid;
@@ -52,15 +58,21 @@ main > h3{
 }
 
 li{
-    border: rgba(0, 0, 0, 0.0) 1px solid;
+    /* border: rgba(0, 0, 0, 0.0) 1px solid; */
     display: flex;
     flex-flow: row;
     align-items: center;
     gap: 1em;
+    background-color:rgba(242, 242, 242,0.1);
 }
-li:hover{
-    border: rgba(0, 0, 0, 0.1) 1px solid;
-}
+
+/* li:hover{
+    /* border: rgba(0, 0, 0, 0.1) 1px solid; */
+    /* transform: translate3d(20px,0,0) scale(1.2);
+    background-color: rgba(242, 242, 242,0.9); 
+} 
+*/
+
 img{
     max-width: 200px;
 }

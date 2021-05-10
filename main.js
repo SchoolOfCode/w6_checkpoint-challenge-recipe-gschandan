@@ -15,8 +15,9 @@ window.onscroll = function(event){
     getMoreRecipes(moreRecipes);
   };
 };
-let numRecipesToDisplay = 11;
+let numRecipesToDisplay = 10; //limit I have placed due to avoid exceeding free API limit and reduce latency
 let moreRecipes;
+const recipeDict = {};
 
 function handleRecipeClick() {
   /*#################################################################
@@ -38,6 +39,8 @@ async function fetchRecipe(food, from=0) {
   /*#################################################################
   Fetch the recipe by searching with the search query provided
   Call the functions displayRecipeCount, then displayRecipeSearchResults
+  Store if there are more recipes available in moreRecipes
+  Store the retireved recipes in a dict with their URI as the key
   #################################################################*/
   try{
     const fromQuery = `&from=${from}`;
@@ -46,8 +49,10 @@ async function fetchRecipe(food, from=0) {
     const recipeList = await recipeSearchResponse.json();
     console.log(recipeList);//----------------Remove this later: for debugging only---------------------
     moreRecipes = recipeList.more;
-    //displayRecipeCount(recipeList.count); //?bug - returns one less than is available sometimes
-    displayRecipeCount(recipeList.hits.length);
+    recipeList.hits.forEach(recipe => recipeDict[recipe.recipe.uri.substr(recipe.recipe.uri.lastIndexOf("_")+1)] = recipe.recipe);
+    console.log(recipeDict)
+    displayRecipeCount(recipeList.count); //?bug - returns one less than is available sometimes
+    //displayRecipeCount(recipeList.hits.length);
     displayRecipeSearchResults(recipeList.hits, moreRecipes);
   } catch (error){
     console.error(`${error}`)
@@ -57,7 +62,8 @@ async function fetchRecipe(food, from=0) {
 function displayRecipeCount(count){
   /*#################################################################
   Clear the search results by removing all children elements of the recipe 
-  results section. Display the number of results found, if any, in a h3 elem
+  results section. Display the number of results found, if any, in a var elem 
+  in the h3 elem
   #################################################################*/
   recipeResultsNumElem.removeChild(recipeResultsNumElem.firstChild);
   const h3Elem =  document.createElement("h3");
@@ -72,8 +78,11 @@ function displayRecipeCount(count){
 
 function displayRecipeSearchResults(recipeList, moreRecipes){
   /*#################################################################
-  Display 10 search results in an ordered list elem, looping through the
+  Display 10 (or more) search results in an ordered list elem, looping through the
   hits from the query. Display the image, title and some of the health labels
+  If the 10 results are fully displayed in the viewport and there is space and
+  more recipes available, grab some more recipes and display them
+  Use the URI of the recipe as it's ID for referencing
   #################################################################*/
   let olElem = document.querySelector("ol");
   if  (!olElem){
@@ -81,10 +90,12 @@ function displayRecipeSearchResults(recipeList, moreRecipes){
     olElem.classList.add("recipe-list");
     recipeResultsElem.appendChild(olElem);
   };
-  recipeList.forEach(recipe => {
+  recipeList.forEach((recipe,index) => {
     const liElem = document.createElement("li");
     liElem.classList.add("recipe-item")
     liElem.innerHTML= formatRecipeResults(recipe.recipe);
+    let uri = recipe.recipe.uri.substr(recipe.recipe.uri.lastIndexOf("_")+1);
+    liElem.id = uri;
     olElem.appendChild(liElem);
   });
   if ((olElem.getBoundingClientRect().bottom <= window.innerHeight) && moreRecipes){
@@ -100,8 +111,8 @@ function formatRecipeResults(recipe){
   let totTime = recipe.totalTime;
   let prepTime = (totTime > 0)? (totTime <= 60)? `Time: ${totTime}mins`:`Time: ${Math.round(totTime/60)}hrs`: "";
   const recipeCard = `
-  <a href=${recipe.url}><img class="recipe-image" src="${recipe.image}" alt="${recipe.label}""></a>
-  <p>${recipe.label}.<br>Serves: ${recipe.yield}.<br>${prepTime}</p>`
+  <img class="recipe-image" src="${recipe.image}" alt="${recipe.label}"">
+  <p id="info">${recipe.label}.<br>Serves: ${recipe.yield}.<br>${prepTime}</p>`
   return recipeCard;
 }
 
@@ -112,3 +123,6 @@ function getMoreRecipes(moreRecipes){
     numRecipesToDisplay += 11;
   }
 }
+{/* <a href=${recipe.url}></a> */}
+
+//http://www.edamam.com/ontologies/edamam.owl#recipe_
