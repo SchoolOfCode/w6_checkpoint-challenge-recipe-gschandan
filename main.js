@@ -118,21 +118,21 @@ function formatRecipeResults(recipe, uri){
   #################################################################*/
   let totTime = recipe.totalTime;
   let hrsTime = Math.round(totTime/60);
-  let prepTime = (totTime > 0)? (totTime <= 60)? `Time: ${totTime}mins`:`Time: ${hrsTime} hr${(hrsTime==1)?".":"s."}`: "";
+  let prepTime = (totTime > 0)? (totTime <= 60)? `⏰ Time: ${totTime}mins`:`⏰ Time: ${hrsTime} hr${(hrsTime==1)?"":"s"}`: "";
+  let recipeLabels = recipe.healthLabels
   const recipeCard = `
-  <div class="recipe-image ${uri}">
-    <a href=${recipe.url}>
-      <img class="${uri}" src="${recipe.image}" alt="${recipe.label}"">
-    </a>
-  </div>
+  <a href=${recipe.url}>
+      <img class="recipe-image ${uri}" src="${recipe.image}" alt="${recipe.label}"">
+  </a>
   <div class="recipe-details ${uri}">
+    <div class="recipe-info ${uri}">
+      <p class="serving-size">🍴 &nbsp; Serves: ${recipe.yield}
+        <span class="nutrition-text">${Math.floor(recipe.totalDaily.ENERC_KCAL.quantity)} kCal per serving</span>
+      </p>
+      <p>${prepTime}</p>
+    </div>
     <div  class="recipe-title ${uri}">
       <p>${recipe.label}</p>
-    </div>
-    <div class="recipe-info ${uri}">
-      <p>Serves: ${recipe.yield}</p>
-      <p>${prepTime}</p>
-      </p>
     </div>
   </div>`
   return recipeCard;

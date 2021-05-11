@@ -47,6 +47,9 @@ main{
     padding: 1em;
     text-align: center;
 }
+.recipe-results{
+    margin: 5px;
+}
 ol{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -63,37 +66,45 @@ li{
     grid-template-rows: 4fr 1fr;
 }
 
-
+li a{
+    justify-items: center;
+}
 img{
     width: 100%;
 }
 
+.recipe-details{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+.recipe-info{
+    display: grid;
+    align-content: start;
+}
 .recipe-title{
     font-size: 1.2em;
 }
-
 .recipe-title{
-
-}
-.recipe-info{
-
+    text-align: center;
+    row-
 }
 
-.recipe-details p{
-    border-bottom: dashed 0.5px grey;
+.serving-size {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-thickness: 1px;
 
 }
-.nutrition-info .nutrition-text{
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
-  position: absolute;
-  z-index: 1;
+.serving-size .nutrition-text{
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    text-align: center;
+    padding: 5px 5px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
 }
-.nutrition-info:hover .nutrition-text{
+.serving-size:hover .nutrition-text{
     visibility: visible;
 }
