@@ -94,9 +94,9 @@ function displayRecipeSearchResults(recipeList, moreRecipes){
     olElem = document.createElement("ol");
     olElem.classList.add("recipe-list");
     recipeResultsElem.appendChild(olElem);
-    olElem.addEventListener("click", function(event){
-      displayDetails(event.target);
-    });
+    // olElem.addEventListener("click", function(event){
+    //   displayDetails(event.target);
+    // });
   };
   recipeList.forEach((recipe,index) => {
     const liElem = document.createElement("li");
@@ -117,10 +117,24 @@ function formatRecipeResults(recipe, uri){
   wrap img in an anchor tag, insert text +/- calories, prep time, labels
   #################################################################*/
   let totTime = recipe.totalTime;
-  let prepTime = (totTime > 0)? (totTime <= 60)? `Time: ${totTime}mins`:`Time: ${Math.round(totTime/60)}hrs`: "";
+  let hrsTime = Math.round(totTime/60);
+  let prepTime = (totTime > 0)? (totTime <= 60)? `Time: ${totTime}mins`:`Time: ${hrsTime} hr${(hrsTime==1)?".":"s."}`: "";
   const recipeCard = `
-  <img class="${uri}" src="${recipe.image}" alt="${recipe.label}"">
-  <p id="info" class="recipe-details ${uri}">${recipe.label}.<br>Serves: ${recipe.yield}.<br>${prepTime}</p>`
+  <div class="recipe-image ${uri}">
+    <a href=${recipe.url}>
+      <img class="${uri}" src="${recipe.image}" alt="${recipe.label}"">
+    </a>
+  </div>
+  <div class="recipe-details ${uri}">
+    <div  class="recipe-title ${uri}">
+      <p>${recipe.label}</p>
+    </div>
+    <div class="recipe-info ${uri}">
+      <p>Serves: ${recipe.yield}</p>
+      <p>${prepTime}</p>
+      </p>
+    </div>
+  </div>`
   return recipeCard;
 }
 
@@ -133,22 +147,21 @@ function getMoreRecipes(moreRecipes){
     numRecipesToDisplay += 11;
   }
 }
-/* <a href=${recipe.url}></a> */
 
-function displayDetails(item){
-  /*#################################################################
-  Get the recipe ID of the clicked on element, if they clicked on the space
-  #################################################################*/
-  let recipeClicked = item.className.substr(item.className.lastIndexOf(" ")+1);
-  if (item.parentNode.nodeName != "LI"){
-    return; //do nothing if the space between the recipe cards was clicked
-  }
-  console.log(item.parentNode)
-  if (item.parentNode.classList.contains("detailed-recipe")){
-    item.parentNode.classList.remove("detailed-recipe");
-  } else{
-    item.parentNode.classList.add("detailed-recipe");
-  }
-  console.log(recipeDict[recipeClicked]);
-  // fetchLargerImage()
-}
+// function displayDetails(item){
+//   /*#################################################################
+//   Get the recipe ID of the clicked on element, if they clicked on the space
+//   #################################################################*/
+//   let recipeClicked = item.className.substr(item.className.lastIndexOf(" ")+1);
+//   if (item.parentNode.nodeName != "LI"){
+//     return; //do nothing if the space between the recipe cards was clicked
+//   }
+//   console.log(item.parentNode)
+//   if (item.parentNode.classList.contains("detailed-recipe")){
+//     item.parentNode.classList.remove("detailed-recipe");
+//   } else{
+//     item.parentNode.classList.add("detailed-recipe");
+//   }
+//   console.log(recipeDict[recipeClicked]);
+//   // fetchLargerImage()
+// }
