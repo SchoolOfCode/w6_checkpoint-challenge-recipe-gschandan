@@ -66,17 +66,37 @@ li{
     background-color:rgba(242, 242, 242,0.1);
 }
 
-/* li:hover{
-    /* border: rgba(0, 0, 0, 0.1) 1px solid; */
-    /* transform: translate3d(20px,0,0) scale(1.2);
-    background-color: rgba(242, 242, 242,0.9); 
-} 
-*/
-
 img{
-    max-width: 200px;
+    width: 200px;
 }
 
+@media only screen and (max-width: 600px){
+    .detailed-recipe{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .detailed-recipe > p{
+        max-width: 90vw;
+        padding: 0 5vw;
+    }
+    .detailed-recipe > img{
+        max-width: 90vw;
+        padding: 0 5vw;
+    }
+
+}
+
+.detailed-recipe{
+    grid-column: span 2;
+    grid-row: span 2;
+}
+.detailed-recipe > p{
+    width: 100%;
+}
+.detailed-recipe > img{
+    width: 100%;
+
+}
 .recipe-list{
 
 }
