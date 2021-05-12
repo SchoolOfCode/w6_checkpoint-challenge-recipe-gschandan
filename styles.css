@@ -66,9 +66,6 @@ li{
     grid-template-rows: 4fr 1fr;
 }
 
-li a{
-    justify-items: center;
-}
 img{
     width: 100%;
 }
@@ -83,17 +80,31 @@ img{
 }
 .recipe-title{
     font-size: 1.2em;
-}
-.recipe-title{
     text-align: center;
-    row-
+}
+
+.nutr-label-legend{
+    grid-column: 1/2;
+    padding-bottom: 0.2em;
+}
+
+.nutrition-label{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    font-size: 0.9em;
+    text-align: center;
+    padding-bottom: 1em;
+}
+.nutrition-label div{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0.5em 0;
 }
 
 .serving-size {
     text-decoration: underline;
     text-decoration-style: dotted;
     text-decoration-thickness: 1px;
-
 }
 .serving-size .nutrition-text{
     visibility: hidden;

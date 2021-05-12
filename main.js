@@ -114,27 +114,55 @@ function displayRecipeSearchResults(recipeList, moreRecipes){
 
 function formatRecipeResults(recipe, uri){
   /*#################################################################
-  wrap img in an anchor tag, insert text +/- calories, prep time, labels
+  Capture nutritional info, in quantity/100g for labelling
+  Insert it into a formatted recipe card, for styling
+  URI added to class for easier ID of specific recipe user interaction
   #################################################################*/
   let totTime = recipe.totalTime;
   let hrsTime = Math.round(totTime/60);
-  let prepTime = (totTime > 0)? (totTime <= 60)? `⏰ Time: ${totTime}mins`:`⏰ Time: ${hrsTime} hr${(hrsTime==1)?"":"s"}`: "";
-  let recipeLabels = recipe.healthLabels
+  let yield = recipe.yield;
+  let weight = recipe.totalWeight;
+  let prepTime = (totTime > 0)? (totTime <= 60)? `⏰ Time: ${totTime}m`:`⏰ Time: ${hrsTime} hr${(hrsTime==1)?"":"s"}`: "";
+  let label = recipe.label.replace(/recipes?/ig, ' ');
+
+  let energy = Math.floor(recipe.totalNutrients.ENERC_KCAL.quantity*100/weight);
+  let fat = Math.floor(recipe.totalNutrients.FAT.quantity*1000/weight)/10;
+  let sugar = Math.floor(recipe.totalNutrients.SUGAR.quantity*1000/weight)/10;
+  let salt = Math.floor(recipe.totalNutrients.NA.quantity*10/weight)/10;
+
+  [fatColor,sugarColor,saltColor] = getNutritionalColors(fat,sugar,salt);
+
   const recipeCard = `
-  <a href=${recipe.url}>
-      <img class="recipe-image ${uri}" src="${recipe.image}" alt="${recipe.label}"">
-  </a>
+  <a href=${recipe.url}><img class="recipe-image ${uri}" src="${recipe.image}" alt="${recipe.label}"></a>
   <div class="recipe-details ${uri}">
     <div class="recipe-info ${uri}">
-      <p class="serving-size">🍴 &nbsp; Serves: ${recipe.yield}
-        <span class="nutrition-text">${Math.floor(recipe.totalDaily.ENERC_KCAL.quantity)} kCal per serving</span>
+      <p class="serving-size">🍴 &nbsp; Serves: ${yield}
+        <span class="nutrition-text">${energy} kCal per serving</span>
       </p>
       <p>${prepTime}</p>
     </div>
-    <div  class="recipe-title ${uri}">
-      <p>${recipe.label}</p>
+  <p class="recipe-title ${uri}">${label}</p>
+  </div>
+  <p class="nutr-label-legend">Nutritional information per 100g:</p>
+  <div class="nutrition-label ${uri}">
+    <div class="energy" style="background-color:${"white"}">
+      <p>ENERGY</p>
+      <p>${energy+"kCal"}</p>
     </div>
-  </div>`
+    <div class="fat" style="background-color:${fatColor}">
+      <p>FAT</p>
+      <p>${fat+"g"}</p>
+    </div>
+    <div class="sugars" style="background-color:${sugarColor}">
+      <p>SUGARS</p>
+      <p>${sugar +"g"}</p>
+    </div>
+    <div class="salt" style="background-color:${saltColor}">
+      <p>SALT</p>
+      <p>${salt+"g"}</p>
+    </div>
+  </div>
+  `
   return recipeCard;
 }
 
@@ -146,6 +174,25 @@ function getMoreRecipes(moreRecipes){
     fetchRecipe(itemInputElem.value, from=numRecipesToDisplay);
     numRecipesToDisplay += 11;
   }
+}
+
+function getNutritionalColors(fat,sugar,salt){
+  let g = "#78C35F;";
+  let y = "#FAB03E;";
+  let r = "#F05929;";
+
+  let fatColor;
+  let sugarColor;
+  let saltColor;
+
+  fatColor = (fat > 3.0 && fat <= 17.5)?  y : r;
+  sugarColor = (sugar > 5.0 && sugar <= 22.5)?  y : r;
+  saltColor = (salt > 0.3 && salt <= 1.5)?  y : r;
+  if(fat <= 3.0){fatColor = g};
+  if(sugar <= 5.0){sugarColor = g};
+  if(salt <= 0.3){saltColor = g};
+
+  return [fatColor,sugarColor,saltColor];
 }
 
 // function displayDetails(item){
