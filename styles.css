@@ -14,7 +14,7 @@ main{
 .header-bar{
     display: grid;
     grid-template-columns: 1fr;
-    background-color: rgb(37, 64, 89);
+    background-color: rgb(4, 90, 124);
     padding: 3vh 2vw 0;
     gap: 20px;
 }
@@ -31,10 +31,13 @@ main{
     font-size: 3rem;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+#r{
+    color:rgb(255,0,132);
+}
 
 #food-input{
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 0.3rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 0.2rem;
     border-color:rgba(44, 30, 28, 0.3);
     color: #F2F2F2;
     text-align: center;
@@ -43,23 +46,37 @@ main{
 
 #recipe-button{
     font-size: 1.5rem;
-    border-radius: 0.3rem;
+    border-radius: 0.2rem;
+    color: #F2F2F2;
+    background-color: rgba(255, 255, 255, 0);
+    border: 1px solid #FFFFFF;
+    transition: all 0.2s;
+}
+#recipe-button:hover{
+    color: black;
     background-color: #F2F2F2;
 }
 
 .quote-container{
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
     color: #F2F2F2;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     padding-bottom: 0.3em;
 }
 #quote{
+    grid-row: 1;
+    grid-column: 2;
     font-weight: 100;
     font-size: 1.5em;
     font-weight:lighter;
     text-align: center;
     padding-bottom: 0.3em;
+
 }
 #author{
+    grid-row: 2;
+    grid-column: 2;
     text-align: center;
 }
 

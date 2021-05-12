@@ -130,7 +130,7 @@ function formatRecipeResults(recipe, uri){
   let hrsTime = Math.round(totTime/60);
   let yield = recipe.yield;
   let weight = recipe.totalWeight;
-  let prepTime = (totTime > 0)? (totTime <= 60)? `⏰ Time: ${totTime}m`:`⏰ Time: ${hrsTime} hr${(hrsTime==1)?"":"s"}`: "";
+  let prepTime = (totTime > 0)? (totTime < 60)? `⏰ Time: ${totTime}m`:`⏰ Time: ${hrsTime} hr${(hrsTime==1)?"":"s"}`: "";
   let label = recipe.label.replace(/recipes?/ig, ' ');
 
   let energy = Math.floor(recipe.totalNutrients.ENERC_KCAL.quantity*100/weight);
