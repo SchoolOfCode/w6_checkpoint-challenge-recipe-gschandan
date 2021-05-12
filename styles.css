@@ -11,12 +11,17 @@ main{
 }
 
 /*###############################################*/
+.header-bar{
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: rgb(37, 64, 89);
+    padding: 3vh 2vw 0;
+    gap: 20px;
+}
 .recipe-search-form{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    background-color: rgb(37, 64, 89);
-    gap: 0.5em;
-    padding: 5vh 2vw;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 10px;
 }
 
 #search-form-header{
@@ -42,6 +47,22 @@ main{
     background-color: #F2F2F2;
 }
 
+.quote-container{
+    color: #F2F2F2;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    padding-bottom: 0.3em;
+}
+#quote{
+    font-weight: 100;
+    font-size: 1.5em;
+    font-weight:lighter;
+    text-align: center;
+    padding-bottom: 0.3em;
+}
+#author{
+    text-align: center;
+}
+
 /*###############################################*/
 #recipe-result-numbers{
     padding: 1em;
@@ -49,6 +70,7 @@ main{
 }
 .recipe-results{
     margin: 5px;
+    text-align: center;
 }
 ol{
     display: grid;
@@ -56,10 +78,8 @@ ol{
     list-style-type: none;
     gap: 1em;
 }
-main > h3{
-    text-align: center;
-}
 
+/*###############################################*/
 li{
     display: grid;
     grid-template-columns: 1fr;
@@ -94,28 +114,10 @@ img{
     font-size: 0.9em;
     text-align: center;
     padding-bottom: 1em;
+    column-gap: 2px;
 }
 .nutrition-label div{
-    border: 1px solid black;
-    border-radius: 5px;
+    border: 2px solid black;
+    border-radius: 10px;
     padding: 0.5em 0;
-}
-
-.serving-size {
-    text-decoration: underline;
-    text-decoration-style: dotted;
-    text-decoration-thickness: 1px;
-}
-.serving-size .nutrition-text{
-    visibility: hidden;
-    background-color: rgba(0, 0, 0, 0.4);
-    color: #fff;
-    text-align: center;
-    padding: 5px 5px;
-    border-radius: 6px;
-    position: absolute;
-    z-index: 1;
-}
-.serving-size:hover .nutrition-text{
-    visibility: visible;
 }

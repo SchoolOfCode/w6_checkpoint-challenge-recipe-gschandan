@@ -1,3 +1,4 @@
+//EDAMAM API TOKENS--#####################################################
 const RECIPE_APP_ID = "ac929366"
 const RECIPE_APP_KEY = "c9a3f34b5eec7c0fbeae3ab5f919746e"
 const AUTH_KEY = `&app_id=${RECIPE_APP_ID}&app_key=${RECIPE_APP_KEY}`
@@ -7,11 +8,15 @@ const URI_LENGTH = 32;
 const foodItemSearchBtn = document.querySelector("#recipe-button");
 const itemInputElem = document.querySelector("#food-input");
 const recipeResultsElem = document.querySelector(".recipe-results");
-const recipeResultsNumElem = document.querySelector("#recipe-result-numbers")
+const recipeResultsNumElem = document.querySelector("#recipe-result-numbers");
 const htmlElem = document.querySelector("html");
-
+const quoteElem = document.querySelector("#quote");
+const authorElem = document.querySelector("#author");
 //Event Listeners--#####################################################
-foodItemSearchBtn.addEventListener("click", handleRecipeClick);
+foodItemSearchBtn.addEventListener("click", function(){
+  handleRecipeClick();
+  getQuote();
+});
 window.onscroll = function(event){
   //If we have scrolled to the last visible result, fetch some more
   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
@@ -21,9 +26,9 @@ window.onscroll = function(event){
 
 //Global Variables--####################################################
 
-let numRecipesToDisplay = 10; //limit I have placed due to avoid exceeding free API limit and reduce latency
+let numRecipesToDisplay = 10; //limit I made to avoid exceeding free API limit/reduce latency
 let moreRecipes;
-const recipeDict = {};
+const recipeDict = {}; //to store recipes for debugging purposes
 
 //Functions--##########################################################
 
@@ -52,7 +57,10 @@ async function fetchRecipe(food, from=0) {
   try{
     const fromQuery = `&from=${from}`;
     const requestUrl = `https://api.edamam.com/search?q=${food+AUTH_KEY+fromQuery}`
-    const recipeSearchResponse = await fetch(requestUrl, {cache: "force-cache"}); //change this to default after testing completed
+    const recipeSearchResponse = await fetch(requestUrl, {
+      method: "GET",
+      cache: "force-cache"
+    }); //change this to default after testing completed
     const recipeList = await recipeSearchResponse.json();
     moreRecipes = recipeList.more;
     recipeList.hits.forEach(recipe => recipeDict[recipe.recipe.uri.substr(recipe.recipe.uri.lastIndexOf("_")+1)] = recipe.recipe);
@@ -114,9 +122,9 @@ function displayRecipeSearchResults(recipeList, moreRecipes){
 
 function formatRecipeResults(recipe, uri){
   /*#################################################################
-  Capture nutritional info, in quantity/100g for labelling
-  Insert it into a formatted recipe card, for styling
-  URI added to class for easier ID of specific recipe user interaction
+  Capture nutritional info, in x/100g for labelling
+  Insert it into a formatted recipe card, for potential styling URI 
+  added to the items class for easier ID of specific recipe user interaction
   #################################################################*/
   let totTime = recipe.totalTime;
   let hrsTime = Math.round(totTime/60);
@@ -136,14 +144,12 @@ function formatRecipeResults(recipe, uri){
   <a href=${recipe.url}><img class="recipe-image ${uri}" src="${recipe.image}" alt="${recipe.label}"></a>
   <div class="recipe-details ${uri}">
     <div class="recipe-info ${uri}">
-      <p class="serving-size">🍴 &nbsp; Serves: ${yield}
-        <span class="nutrition-text">${energy} kCal per serving</span>
-      </p>
+      <p class="serving-size">🍴 &nbsp; Serves: ${yield}</p>
       <p>${prepTime}</p>
     </div>
   <p class="recipe-title ${uri}">${label}</p>
   </div>
-  <p class="nutr-label-legend">Nutritional information per 100g:</p>
+  <p class="nutr-label-legend">Nutritional information per 100g</p>
   <div class="nutrition-label ${uri}">
     <div class="energy" style="background-color:${"white"}">
       <p>ENERGY</p>
@@ -177,6 +183,10 @@ function getMoreRecipes(moreRecipes){
 }
 
 function getNutritionalColors(fat,sugar,salt){
+  /*#################################################################
+  Change the colour of the label based on the nutritional values
+  Based on https://www.nutrition.org.uk/healthyliving/helpingyoueatwell/324-labels.html?start=3
+  #################################################################*/
   let g = "#78C35F;";
   let y = "#FAB03E;";
   let r = "#F05929;";
@@ -195,20 +205,12 @@ function getNutritionalColors(fat,sugar,salt){
   return [fatColor,sugarColor,saltColor];
 }
 
-// function displayDetails(item){
-//   /*#################################################################
-//   Get the recipe ID of the clicked on element, if they clicked on the space
-//   #################################################################*/
-//   let recipeClicked = item.className.substr(item.className.lastIndexOf(" ")+1);
-//   if (item.parentNode.nodeName != "LI"){
-//     return; //do nothing if the space between the recipe cards was clicked
-//   }
-//   console.log(item.parentNode)
-//   if (item.parentNode.classList.contains("detailed-recipe")){
-//     item.parentNode.classList.remove("detailed-recipe");
-//   } else{
-//     item.parentNode.classList.add("detailed-recipe");
-//   }
-//   console.log(recipeDict[recipeClicked]);
-//   // fetchLargerImage()
-// }
+async function getQuote(){
+  const searchString = itemInputElem.value.split(" ");
+  const response = await fetch(`https://api.quotable.io/random`,{
+    method: "GET"
+  });
+  const data = await response.json();
+  quoteElem.innerText = '"'+data.content+'"';
+  authorElem.innerHTML = data.author;
+}
