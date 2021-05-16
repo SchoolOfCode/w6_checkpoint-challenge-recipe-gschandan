@@ -1,0 +1,164 @@
+*{
+    padding:0;
+    margin:0;
+}
+html{
+    background-color:rgb(236, 240, 241);
+}
+
+main{
+    font-family: sans-serif;
+}
+
+/*###############################################*/
+.header-bar{
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: rgb(4, 90, 124);
+    padding: 3vh 2vw 0;
+    gap: 20px;
+}
+.recipe-search-form{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 10px;
+}
+
+#search-form-header{
+    color: #F2F2F2;
+    font-weight: 100;
+    text-align: center;
+    font-size: 3rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+#r{
+    color:rgb(255,0,132);
+}
+
+#food-input{
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 0.2rem;
+    border-color:rgba(44, 30, 28, 0.3);
+    color: #F2F2F2;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.button{
+    font-size: 1.5rem;
+    border-radius: 0.2rem;
+    color: #F2F2F2;
+    background-color: rgba(255, 255, 255, 0);
+    border: 1px solid #FFFFFF;
+    transition: all 0.2s;
+}
+.button:hover{
+    color: black;
+    background-color: #F2F2F2;
+}
+
+#help-overlay {
+    position: fixed; 
+    display: none;
+    top: 0;
+    padding-top: 17vh;
+    width: 100%; 
+    height: 100%;
+    background-color: rgba(0,0,0,0.8); 
+    z-index: 1; 
+}
+
+#help-text{
+    padding: 1vh 20vw;
+    line-height: 1.5;
+    color:  #F2F2F2;
+}
+#help-text ul{
+}
+#help-text > ul > li:nth-child(2) > ul {
+    padding-left: 5vw;
+}
+
+/*###############################################*/
+.quote-container{
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    color: #F2F2F2;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    padding-bottom: 0.3em;
+}
+#quote{
+    grid-row: 1;
+    grid-column: 2;
+    font-weight: 100;
+    font-size: 1.5em;
+    font-weight:lighter;
+    text-align: center;
+    padding-bottom: 0.3em;
+
+}
+#author{
+    grid-row: 2;
+    grid-column: 2;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+/*###############################################*/
+#recipe-result-numbers{
+    padding: 1em;
+    text-align: center;
+}
+.recipe-results{
+    margin: 5px;
+    text-align: center;
+}
+ol{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    list-style-type: none;
+    gap: 1em;
+}
+
+/*###############################################*/
+ol > li{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 4fr 1fr;
+}
+
+img{
+    width: 100%;
+}
+
+.recipe-details{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+.recipe-info{
+    display: grid;
+    align-content: start;
+}
+.recipe-title{
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.nutr-label-legend{
+    grid-column: 1/2;
+    padding-bottom: 0.2em;
+}
+
+.nutrition-label{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    font-size: 0.9em;
+    text-align: center;
+    padding-bottom: 1em;
+    column-gap: 2px;
+}
+.nutrition-label div{
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 0.5em 0;
+}

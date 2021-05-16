@@ -2,22 +2,52 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fetch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="./main.js" defer></script>
+    <!--<script src="https://developer.edamam.com/attribution/badge.js" defer></script>-->
+    <title>Recipe Findr</title>
   </head>
   <body>
-    <section id="recipe-section">
-      <h2 class="section-heading">Welcome to the Recipe Finder!</h2>
-      <input
-        aria-label="food-input"
-        id="food-input"
-        onchange="handleFoodChange()"
-      />
-      <button id="recipe-button" onclick="handleRecipeClick()">
-        Give me a recipe!
-      </button>
-      <a id="recipe-label"></a>
-    </section>
-    <script src="./main.js"></script>
+      <header>
+        <h1 aria-label="A recipe discovery web-application"></h1>
+      </header>
+      <main>
+        <div class="header-bar">
+          <div class = "recipe-search-form">
+                <h2 id="search-form-header">Recipe Find<span id="r">r</span></h2>
+                <input aria-label="food-input" type="text"
+                  id="food-input" value="gluten-free vegan pizza"/>
+                <button class="button" id="recipe-button">Search</button>
+                <button class="button" id="help">Help</button>
+                <!-- <div id="edamam-badge"></div>-->
+          </div>
+          <div class = "quote-container">
+            <p id="quote"></p>
+            <p id="author"></p>
+          </div>
+        </div>
+        <div id="help-overlay">
+          <div id="help-text">
+            <ul>
+              <li>You can filter the recipes by adding the following to your search:
+                <ul>
+                  <li>Time: e.g. 'quick' for (30 minutes max) or 'fast' (45 minutes max)</li>
+                  <li>Diet: one of “balanced”, “high-protein”, “high-fiber”, “low-fat”, “low-carb”, “low-sodium”</li>
+                  <li>Cuisine Type: The type of cuisine of the recipe. You can use more than one separated by a space e.g. chinese indian</li>
+                  <li>Health label: e.g.'peanut-free' or 'low-carb', these can also be combined</li>
+                </ul>
+              </li>
+              <li>If you don't get any results, try removing the filter terms as not all recipes will supply us with that information.</li>
+            </ul>
+          </div>
+        </div>
+        <div id="recipe-result-numbers">
+        </div>
+        <div class = "recipe-results">
+        </div>
+      </main>
+      <footer>
+      </footer>
   </body>
 </html>
