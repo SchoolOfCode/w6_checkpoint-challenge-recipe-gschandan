@@ -1,10 +1,12 @@
-//EDAMAM API TOKENS--#####################################################
+//EDAMAM API Variables--################################################
+
 const RECIPE_APP_ID = "ac929366"
 const RECIPE_APP_KEY = "c9a3f34b5eec7c0fbeae3ab5f919746e"
 const AUTH_KEY = `&app_id=${RECIPE_APP_ID}&app_key=${RECIPE_APP_KEY}`
 const URI_LENGTH = 32;
 
 //DOM--#################################################################
+
 const foodItemSearchBtn = document.querySelector("#recipe-button");
 const itemInputElem = document.querySelector("#food-input");
 const recipeResultsElem = document.querySelector(".recipe-results");
@@ -12,11 +14,16 @@ const recipeResultsNumElem = document.querySelector("#recipe-result-numbers");
 const htmlElem = document.querySelector("html");
 const quoteElem = document.querySelector("#quote");
 const authorElem = document.querySelector("#author");
+const helpBtn = document.querySelector("#help");
+const helpOverlay = document.querySelector("#help-overlay");
+
 //Event Listeners--#####################################################
+
 foodItemSearchBtn.addEventListener("click", function(){
   handleRecipeClick();
   getQuote();
 });
+
 window.onscroll = function(event){
   //If we have scrolled to the last visible result, fetch some more
   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
@@ -24,11 +31,45 @@ window.onscroll = function(event){
   };
 };
 
+helpBtn.addEventListener("click", displayHelp);
+helpOverlay.addEventListener("click", hideHelp);
+
 //Global Variables--####################################################
 
 let numRecipesToDisplay = 10; //limit I made to avoid exceeding free API limit/reduce latency
 let moreRecipes;
-const recipeDict = {}; //to store recipes for debugging purposes
+const recipeDict = {}; //to store recipes for debugging purposes or for later filtering
+const filterObj ={
+  "quick":"&time=1-30",
+  "fast":"&time=1-45",
+  "balanced":"&diet=balanced",
+  "high-protein":"&diet=high-protein",
+  "protein":"&diet=high-protein",
+  "fiber":"&diet=high-fiber",
+  "low-fat":"&diet=low-fat",
+  "fat-free":"&diet=low-fat",
+  "low-carb":"&diet=low-carb",
+  "carb-free":"&diet=low-carb",
+  "alcohol-free":"&health=alcohol-free",
+  "immune":"&health=immuno-supportive",
+  "dairy":"&health=dairy-free",
+  "dairy-free":"&health=dairy-free",
+  "eggs":"&health=egg-free",
+  "egg":"&health=egg-free",
+  "gluten":"&health=gluten-free",
+  "gluten-free":"&health=gluten-free",
+  "keto":"&health=keto-friendly",
+  "peanut-free":"&health=peanut-free",
+  "vegan":"&health=vegan",
+  "vegetarian":"&health=vegetarian",
+  "fodmap":"&health=fodmap-free",
+  "chinese":"&cuisineType=chinese",
+  "indian":"&cuisineType=indian",
+  "american":"&cuisineType=american",
+  "french":"&cuisineType=french",
+  "caribbean":"&cuisineType=caribbean",
+  "italian":"&cuisineType=italian"
+};
 
 //Functions--##########################################################
 
@@ -41,7 +82,7 @@ function handleRecipeClick() {
   }
   const foodToSearch = itemInputElem.value;
   if (foodToSearch){
-    fetchRecipe(foodToSearch);
+    fetchRecipe(foodToSearch.toLowerCase());
   } else{
     console.error("No search item entered. Please enter an item and try again!");
   }
@@ -56,20 +97,31 @@ async function fetchRecipe(food, from=0) {
   #################################################################*/
   try{
     const fromQuery = `&from=${from}`;
-    const requestUrl = `https://api.edamam.com/search?q=${food+AUTH_KEY+fromQuery}`
+    const [searchFilters,searchItem] = parseQuery(food);
+    const requestUrl = `https://api.edamam.com/search?q=${searchItem+AUTH_KEY+fromQuery+searchFilters}`
     const recipeSearchResponse = await fetch(requestUrl, {
       method: "GET",
-      cache: "force-cache"
-    }); //change this to default after testing completed
+      cache: "force-cache" //to prevent breaking terms of free API limits
+    }); 
     const recipeList = await recipeSearchResponse.json();
     moreRecipes = recipeList.more;
     recipeList.hits.forEach(recipe => recipeDict[recipe.recipe.uri.substr(recipe.recipe.uri.lastIndexOf("_")+1)] = recipe.recipe);
-    displayRecipeCount(recipeList.count); //?bug - returns one less than is available sometimes
-    //displayRecipeCount(recipeList.hits.length);
+    displayRecipeCount(recipeList.count);
     displayRecipeSearchResults(recipeList.hits, moreRecipes);
+    console.log(requestUrl);
   } catch (error){
     console.error(`${error}`)
   }
+}
+
+function parseQuery(searchString){
+  let searchQuery = searchString.split(" ")
+  let filterTerms = "";
+  let searchFood = "";
+  for (let term of searchQuery){
+    term in filterObj ? filterTerms += filterObj[term]: searchFood += term;
+  }
+  return [filterTerms,searchFood];
 }
 
 function displayRecipeCount(count){
@@ -207,10 +259,18 @@ function getNutritionalColors(fat,sugar,salt){
 
 async function getQuote(){
   const searchString = itemInputElem.value.split(" ");
-  const response = await fetch(`https://api.quotable.io/random`,{
+  const response = await fetch(`https://api.quotable.io/random?maxLength=150`,{
     method: "GET"
   });
   const data = await response.json();
   quoteElem.innerText = '"'+data.content+'"';
   authorElem.innerHTML = data.author;
+}
+
+function displayHelp(){
+  helpOverlay.style.display = "grid";
+}
+
+function hideHelp(){
+  helpOverlay.style.display = "none";
 }

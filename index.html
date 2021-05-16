@@ -17,13 +17,29 @@
           <div class = "recipe-search-form">
                 <h2 id="search-form-header">Recipe Find<span id="r">r</span></h2>
                 <input aria-label="food-input" type="text"
-                  id="food-input" value="pineapple cake"/>
-                <button id="recipe-button">Search</button>
+                  id="food-input" value="gluten-free vegan pizza"/>
+                <button class="button" id="recipe-button">Search</button>
+                <button class="button" id="help">Help</button>
                 <!-- <div id="edamam-badge"></div>-->
           </div>
           <div class = "quote-container">
             <p id="quote"></p>
             <p id="author"></p>
+          </div>
+        </div>
+        <div id="help-overlay">
+          <div id="help-text">
+            <ul>
+              <li>You can filter the recipes by adding the following to your search:
+                <ul>
+                  <li>Time: e.g. 'quick' for (30 minutes max) or 'fast' (45 minutes max)</li>
+                  <li>Diet: one of “balanced”, “high-protein”, “high-fiber”, “low-fat”, “low-carb”, “low-sodium”</li>
+                  <li>Cuisine Type: The type of cuisine of the recipe. You can use more than one separated by a space e.g. chinese indian</li>
+                  <li>Health label: e.g.'peanut-free' or 'low-carb', these can also be combined</li>
+                </ul>
+              </li>
+              <li>If you don't get any results, try removing the filter terms as not all recipes will supply us with that information.</li>
+            </ul>
           </div>
         </div>
         <div id="recipe-result-numbers">
