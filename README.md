@@ -17,8 +17,9 @@ I initially tried using media queries to develop for both mobile and desktop, bu
 
 ### Current Site
 <img src="images/desktop_test.gif" width = 900>
-<img src="images/mobile_test.gif" width = 350>
-## Areas to Improve:
+<img src="images/mobile_test.gif" width = 350>  
+
+### Areas to Improve:  
 1. I failed to implement an expanding recipe card - Ideally the user would click on the recipe or picture, and the recipe would expand, showing the nutritional information, and a tag-cloud of all the health labels associated with it, and then click again to be taken to the recipe. I couldn't get the items next to it to move along one column, even trying using column-span, and the alignemnt would shift elsewhere so I reverted back to the simple link to the recipe, and I don;t yet know how to change the orientation of the expansion depending on the screen width using purely css grid/flex rather than media queries.
 2. Consider loading smaller images first to improve loading times/reduce bandwidth used
 3. Add a random recipe button
