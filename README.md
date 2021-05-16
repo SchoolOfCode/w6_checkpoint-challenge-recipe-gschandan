@@ -15,7 +15,8 @@ I initially wanted to use an image classifier API to make an image search - it w
 ### CSS  
 I initially tried using media queries to develop for both mobile and desktop, but was less than impressed at the duplicate code which seemed uneccesary to me. I then decided to purely use CSS grid, and utlised subgrids (many of them due to my inexperience with grid). It was a valuable learning experience and I am more confident about CSS now. I am not entirely satisfied with the outcome on the whole, and there are many things I would change about the design if I had more time, but for now, it works.
 
-### Current Site
+### Current Site  
+<img src = "images/lighthouse_audit.png">
 <img src="images/desktop_test.gif" width = 900>
 <img src="images/mobile_test.gif" width = 350>  
 
